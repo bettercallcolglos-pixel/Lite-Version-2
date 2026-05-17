@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#0D1B3E"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="KineticShift"/>
+<link rel="manifest" href="manifest.json"/>
+<title>KineticShift</title>
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root{
+  --navy:#0D1B3E;
+  --navy2:#152347;
+  --orange:#F97316;
+  --orange2:#EA6C0A;
+  --green:#4CAF50;
+  --green2:#3D9140;
+  --white:#FFFFFF;
+  --bg:#F0F4F8;
+  --card:#FFFFFF;
+  --text:#1A2B3C;
+  --sub:#5A6A7A;
+  --border:#E0E8F0;
+  --purple:#7B5EA7;
+  --red:#E84040;
+  --teal:#26C6DA;
+  --pink:#F06292;
+  --radius:14px;
+  --shadow:0 2px 16px rgba(13,27,62,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);}
+body{padding-bottom:80px;}
+
+/* ═══════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════ */
+.header{background:var(--navy);color:var(--white);}
+.header-trust{font-size:10px;font-weight:700;letter-spacing:0.6px;text-align:center;padding:6px 12px;background:rgba(0,0,0,0.2);min-height:28px;display:flex;align-items:center;justify-content:center;}
+.header-main{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;}
+.logo-wrap{display:flex;align-items:center;gap:10px;}
+.logo-text{display:flex;flex-direction:column;}
+.logo-name{font-size:22px;font-weight:900;line-height:1;letter-spacing:-0.5px;}
+.logo-name .ks-shift{color:var(--orange);}
+.logo-name .ks-lite{color:var(--green);font-size:14px;font-style:italic;font-weight:700;display:block;}
+.logo-sub{font-size:10px;opacity:0.7;margin-top:1px;letter-spacing:0.3px;}
+.header-nav{display:flex;align-items:center;gap:8px;}
+.nav-btn{background:rgba(255,255,255,0.12);border:none;color:#fff;border-radius:8px;width:34px;height:34px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s;}
+.nav-btn:active{background:rgba(255,255,255,0.25);}
+.month-label{font-size:15px;font-weight:700;min-width:100px;text-align:center;}
+
+/* ═══════════════════════════════════════════
+   SCREENS
+═══════════════════════════════════════════ */
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* ═══════════════════════════════════════════
+   ONBOARDING
+═══════════════════════════════════════════ */
+.onboard-wrap{min-height:calc(100vh - 80px);background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;}
+.onboard-logo{font-size:42px;font-weight:900;color:var(--white);margin-bottom:4px;text-align:center;}
+.onboard-logo span{color:var(--orange);}
+.onboard-lite{color:var(--green);font-size:22px;font-style:italic;font-weight:700;text-align:center;margin-bottom:8px;}
+.onboard-sub{color:rgba(255,255,255,0.6);font-size:13px;text-align:center;margin-bottom:40px;letter-spacing:0.3px;}
+.feature-strip{display:flex;gap:0;border-radius:12px;overflow:hidden;margin-bottom:40px;width:100%;}
+.feature-item{flex:1;padding:12px 6px;text-align:center;font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.feature-item:nth-child(1){background:var(--green);}
+.feature-item:nth-child(2){background:var(--orange);}
+.feature-item:nth-child(3){background:var(--green);}
+.feature-item svg{width:22px;height:22px;}
+.onboard-btn{width:100%;background:var(--orange);color:#fff;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;margin-bottom:12px;transition:background 0.15s;}
+.onboard-btn:active{background:var(--orange2);}
+.onboard-small{color:rgba(255,255,255,0.4);font-size:11px;text-align:center;}
+
+/* ═══════════════════════════════════════════
+   PAYWALL
+═══════════════════════════════════════════ */
+.paywall-wrap{min-height:calc(100vh - 140px);padding:24px 18px;display:flex;flex-direction:column;}
+.paywall-header{text-align:center;margin-bottom:28px;}
+.paywall-title{font-size:22px;font-weight:900;color:var(--navy);margin-bottom:6px;}
+.paywall-sub{font-size:14px;color:var(--sub);line-height:1.5;}
+.paywall-sub strong{color:var(--orange);}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+.service-card{background:var(--card);border-radius:var(--radius);padding:20px 12px;text-align:center;border:3px solid var(--border);cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow);}
+.service-card:active{transform:scale(0.97);}
+.service-card.selected{border-color:var(--orange);background:#FFF7F0;}
+.service-card .svc-icon{font-size:36px;margin-bottom:8px;}
+.service-card .svc-name{font-size:14px;font-weight:800;color:var(--navy);margin-bottom:2px;}
+.service-card .svc-desc{font-size:10px;color:var(--sub);}
+.price-card{background:var(--navy);border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:16px;}
+.price-amount{font-size:36px;font-weight:900;color:var(--orange);}
+.price-period{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:12px;}
+.price-features{text-align:left;color:rgba(255,255,255,0.8);font-size:13px;line-height:2;}
+.price-features span{margin-right:8px;}
+.paywall-btn{width:100%;background:var(--orange);color:#fff;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;margin-bottom:10px;}
+.paywall-btn:disabled{background:var(--border);color:var(--sub);cursor:not-allowed;}
+.paywall-back{background:none;border:none;color:var(--sub);font-size:13px;cursor:pointer;text-align:center;width:100%;padding:8px;}
+
+/* ═══════════════════════════════════════════
+   LEGEND
+═══════════════════════════════════════════ */
+.legend{background:var(--card);padding:8px 12px;display:flex;flex-wrap:wrap;gap:5px 10px;border-bottom:1px solid var(--border);}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--sub);}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+/* ═══════════════════════════════════════════
+   CALENDAR
+═══════════════════════════════════════════ */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:8px;}
+.cal-hdr{text-align:center;font-size:9px;font-weight:800;color:var(--sub);padding:3px 0;letter-spacing:0.5px;}
+.cal-cell{border-radius:10px;padding:4px;min-height:70px;cursor:pointer;position:relative;background:var(--card);border:2px solid transparent;transition:all 0.15s;overflow:hidden;}
+.cal-cell:active{transform:scale(0.95);}
+.cal-cell.today{border-color:var(--orange);}
+.cal-cell.selected{border-color:var(--navy);box-shadow:0 0 0 3px rgba(13,27,62,0.2);}
+.cal-cell.type-off{background:#E8FAF1;}
+.cal-cell.type-days{background:#FFF3DC;}
+.cal-cell.type-nights{background:#EDE7F6;}
+.cal-cell.type-sick{background:#FFEBEB;}
+.cal-cell.type-al{background:#E0F7FA;}
+.cal-cell.type-ot_shift{background:#FCE4EC;}
+.cell-date{font-size:10px;font-weight:800;color:var(--sub);margin-bottom:1px;}
+.cell-type{font-size:8px;font-weight:800;letter-spacing:0.2px;line-height:1.2;}
+.cell-type.days{color:var(--orange);}
+.cell-type.nights{color:var(--purple);}
+.cell-type.off{color:var(--green);}
+.cell-type.sick{color:var(--red);}
+.cell-type.al{color:var(--teal);}
+.cell-type.ot_shift{color:var(--pink);}
+.cell-time{font-size:7px;color:var(--sub);line-height:1.3;margin-top:1px;}
+.cell-loc{font-size:7px;color:#9AA8B6;font-style:italic;}
+.cell-dots{position:absolute;bottom:3px;right:3px;display:flex;gap:2px;}
+.cell-dot{width:5px;height:5px;border-radius:50%;}
+
+/* ═══════════════════════════════════════════
+   DETAIL PANEL
+═══════════════════════════════════════════ */
+.detail-panel{background:var(--card);border-radius:var(--radius) var(--radius) 0 0;box-shadow:0 -4px 24px rgba(0,0,0,0.12);padding:16px;margin-bottom:8px;}
+.detail-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.detail-date{font-size:15px;font-weight:800;color:var(--navy);}
+.detail-actions{display:flex;gap:8px;}
+.d-btn{background:#EEF2FF;border:none;color:var(--navy);border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.tabs-bar{display:flex;border-bottom:2px solid var(--border);margin:0 -16px 14px;padding:0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tabs-bar::-webkit-scrollbar{display:none;}
+.tab-item{padding:8px 10px;font-size:12px;font-weight:700;color:var(--sub);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;flex-shrink:0;}
+.tab-item.active{color:var(--navy);border-bottom-color:var(--orange);}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+/* ═══════════════════════════════════════════
+   FORM
+═══════════════════════════════════════════ */
+.type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.type-btn{border:2px solid var(--border);background:var(--card);border-radius:10px;padding:10px 4px;font-size:11px;font-weight:800;cursor:pointer;text-align:center;transition:all 0.15s;}
+.type-btn.active{border-color:var(--orange);background:#FFF7F0;}
+.type-btn.days{color:var(--orange);}
+.type-btn.nights{color:var(--purple);}
+.type-btn.off{color:var(--green);}
+.type-btn.sick{color:var(--red);}
+.type-btn.al{color:var(--teal);}
+.type-btn.ot_shift{color:var(--pink);}
+.row{display:flex;gap:10px;margin-bottom:10px;}
+.fg{flex:1;}
+.fg label{display:block;font-size:10px;font-weight:700;color:var(--sub);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px;}
+.fg input,.fg select,.fg textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 10px;font-size:14px;font-family:inherit;background:#fff;color:var(--text);outline:none;transition:border-color 0.15s;}
+.fg input:focus,.fg select:focus{border-color:var(--orange);}
+.fg textarea{min-height:70px;resize:vertical;}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F5F7FA;}
+.tog-label{font-size:13px;font-weight:700;}
+.tog-sub{font-size:11px;color:var(--sub);}
+.tog{position:relative;width:44px;height:24px;flex-shrink:0;}
+.tog input{opacity:0;width:0;height:0;}
+.tog-sl{position:absolute;inset:0;background:#D1DAE6;border-radius:24px;transition:.2s;cursor:pointer;}
+.tog-sl:before{content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s;}
+.tog input:checked+.tog-sl{background:var(--orange);}
+.tog input:checked+.tog-sl:before{transform:translateX(20px);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-weight:800;cursor:pointer;transition:all 0.15s;font-family:inherit;}
+.btn:active{transform:scale(0.97);}
+.btn-primary{background:var(--navy);color:#fff;}
+.btn-orange{background:var(--orange);color:#fff;}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-secondary{background:#EEF2FF;color:var(--navy);}
+.btn-full{width:100%;}
+.btn-sm{padding:8px 14px;font-size:12px;}
+.overrun-info{font-size:12px;color:var(--orange);font-weight:700;margin-top:4px;}
+.mileage-result{background:#F0FAF4;border-radius:10px;padding:12px;margin-top:10px;text-align:center;}
+.mileage-amt{font-size:26px;font-weight:900;color:var(--green);}
+.ot-rule{background:#F5F7FA;border-radius:10px;padding:12px;margin-bottom:8px;font-size:12px;line-height:1.6;}
+.ot-rule strong{color:var(--navy);}
+.ot-calc{background:#F0FAF4;border-radius:10px;padding:12px;font-size:13px;margin-top:8px;}
+.sick-info{background:#FFF8ED;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;line-height:1.6;}
+
+/* ═══════════════════════════════════════════
+   STATS
+═══════════════════════════════════════════ */
+.section{padding:12px;}
+.section-title{font-size:10px;font-weight:800;letter-spacing:1.2px;color:var(--sub);text-transform:uppercase;margin-bottom:10px;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.stat-card{background:var(--card);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);}
+.stat-val{font-size:26px;font-weight:900;line-height:1;}
+.stat-val.blue{color:var(--navy);}
+.stat-val.purple{color:var(--purple);}
+.stat-val.red{color:var(--red);}
+.stat-val.teal{color:var(--teal);}
+.stat-val.orange{color:var(--orange);}
+.stat-val.green{color:var(--green);}
+.stat-lbl{font-size:11px;color:var(--sub);margin-top:3px;}
+.pay-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:10px;}
+.pay-lbl{font-size:11px;color:var(--sub);margin-bottom:3px;}
+.pay-total{font-size:30px;font-weight:900;color:var(--green);}
+.pay-breakdown{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.5;}
+
+/* LOCKED OVERLAY */
+.locked-wrap{position:relative;}
+.locked-overlay{position:absolute;inset:0;background:rgba(240,244,248,0.92);border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;backdrop-filter:blur(3px);cursor:pointer;z-index:10;}
+.locked-icon{font-size:28px;}
+.locked-text{font-size:12px;font-weight:800;color:var(--navy);}
+.locked-sub{font-size:10px;color:var(--sub);}
+.unlock-btn{background:var(--orange);color:#fff;border:none;border-radius:20px;padding:7px 16px;font-size:12px;font-weight:800;cursor:pointer;margin-top:4px;}
+
+/* ═══════════════════════════════════════════
+   YEAR-TO-DATE TRACKER
+═══════════════════════════════════════════ */
+.ytd-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:10px;}
+.ytd-stream-title{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.ytd-stream-icon{font-size:16px;}
+.ytd-stream-name{font-size:12px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:0.5px;}
+.ytd-total{margin-left:auto;font-size:18px;font-weight:900;}
+.ytd-total.contract{color:var(--navy);}
+.ytd-total.overrun{color:var(--orange);}
+.ytd-total.overtime{color:var(--green);}
+.ytd-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.ytd-month{font-size:10px;font-weight:700;color:var(--sub);width:26px;flex-shrink:0;}
+.ytd-bar-wrap{flex:1;height:14px;background:#F0F4F8;border-radius:7px;overflow:hidden;}
+.ytd-bar{height:100%;border-radius:7px;transition:width 0.4s ease;min-width:2px;}
+.ytd-bar.contract{background:var(--navy);}
+.ytd-bar.overrun{background:var(--orange);}
+.ytd-bar.overtime{background:var(--green);}
+.ytd-hrs{font-size:10px;font-weight:800;width:36px;text-align:right;flex-shrink:0;}
+.ytd-divider{border:none;border-top:1px solid var(--border);margin:12px 0;}
+
+/* ═══════════════════════════════════════════
+   ROLLING RELIEF
+═══════════════════════════════════════════ */
+.relief-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);}
+.relief-badge{display:flex;align-items:center;justify-content:space-between;padding:10px;background:#F0FAF4;border-radius:10px;margin-bottom:12px;}
+.relief-badge-lbl{font-size:11px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:0.5px;}
+.badge{font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;}
+.badge.ok{background:#D4EDDA;color:#155724;}
+.badge.high{background:#F8D7DA;color:#721C24;}
+.badge.low{background:#FFF3CD;color:#856404;}
+.relief-month-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F5F7FA;font-size:12px;}
+
+/* ═══════════════════════════════════════════
+   SETTINGS
+═══════════════════════════════════════════ */
+.settings-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px;}
+.settings-card-title{font-size:11px;font-weight:800;color:var(--sub);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;}
+.service-badge{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;margin-bottom:12px;}
+
+/* ═══════════════════════════════════════════
+   BOTTOM NAV
+═══════════════════════════════════════════ */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 0 7px;cursor:pointer;color:var(--sub);font-size:9px;font-weight:700;gap:3px;transition:color 0.15s;text-transform:uppercase;letter-spacing:0.3px;}
+.bn-item.active{color:var(--orange);}
+.bn-item svg{width:20px;height:20px;}
+
+/* ═══════════════════════════════════════════
+   INSTALL BANNER
+═══════════════════════════════════════════ */
+.install-banner{background:var(--orange);color:#fff;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.install-banner-text{font-size:12px;font-weight:700;}
+.install-banner-btn{background:#fff;color:var(--orange);border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;}
+.install-banner-close{background:none;border:none;color:rgba(255,255,255,0.8);font-size:18px;cursor:pointer;}
+
+/* ═══════════════════════════════════════════
+   COMING SOON
+═══════════════════════════════════════════ */
+.coming-soon{text-align:center;padding:40px 24px;}
+.coming-soon-icon{font-size:56px;margin-bottom:16px;}
+.coming-soon-title{font-size:20px;font-weight:900;color:var(--navy);margin-bottom:8px;}
+.coming-soon-sub{font-size:14px;color:var(--sub);line-height:1.6;}
+.coming-soon-badge{display:inline-block;background:var(--orange);color:#fff;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:800;margin-top:16px;}
+
+/* ═══════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════ */
+.hidden{display:none!important;}
+.mt8{margin-top:8px;}
+.mt12{margin-top:12px;}
+.mt14{margin-top:14px;}
+</style>
+</head>
+<body>
+
+<!-- INSTALL BANNER -->
+<div class="install-banner hidden" id="installBanner">
+  <div class="install-banner-text">📱 Add KineticShift to your home screen</div>
+  <button class="install-banner-btn" id="installBtn">Install</button>
+  <button class="install-banner-close" onclick="document.getElementById('installBanner').classList.add('hidden')">×</button>
+</div>
+
+<!-- ════════════════════════════════════════
+     SCREEN: ONBOARDING
+════════════════════════════════════════ -->
+<div class="screen active" id="screenOnboard">
+  <div class="onboard-wrap">
+    <div class="onboard-logo">Kinetic<span>Shift</span></div>
+    <div class="onboard-lite">Lite</div>
+    <div class="onboard-sub">SHIFT PAY CALCULATOR</div>
+    <div class="feature-strip">
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Log Shifts
+      </div>
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+        Calculate Pay
+      </div>
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Track Earnings
+      </div>
+    </div>
+    <button class="onboard-btn" onclick="showScreen('screenMain')">Get Started — Free</button>
+    <div class="onboard-small">No account needed · Data stays on your device</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SCREEN: PAYWALL / SERVICE SELECTOR
+════════════════════════════════════════ -->
+<div class="screen" id="screenPaywall">
+  <div class="header">
+    <div class="header-trust" id="paywallTrustBar"></div>
+    <div class="header-main">
+      <div class="logo-wrap">
+        <div class="logo-text">
+          <div class="logo-name">Kinetic<span class="ks-shift">Shift</span></div>
+          <div class="logo-sub">Shift Pay Calculator</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="paywall-wrap">
+    <div class="paywall-header">
+      <div class="paywall-title">🔓 Unlock Full Access</div>
+      <div class="paywall-sub">Choose your service to get a pay calculator built <strong>specifically for your rules</strong></div>
+    </div>
+    <div class="service-grid">
+      <div class="service-card" onclick="selectService('ambulance',this)">
+        <div class="svc-icon">🚑</div>
+        <div class="svc-name">Ambulance</div>
+        <div class="svc-desc">NHS AfC · All UK Trusts</div>
+      </div>
+      <div class="service-card" onclick="selectService('police',this)">
+        <div class="svc-icon">🚓</div>
+        <div class="svc-name">Police</div>
+        <div class="svc-desc">Police Regs · All UK Forces</div>
+      </div>
+      <div class="service-card" onclick="selectService('fire',this)">
+        <div class="svc-icon">🔥</div>
+        <div class="svc-name">Fire</div>
+        <div class="svc-desc">Grey Book · All UK Services</div>
+      </div>
+      <div class="service-card" onclick="selectService('nhs',this)">
+        <div class="svc-icon">🏥</div>
+        <div class="svc-name">NHS</div>
+        <div class="svc-desc">AfC Bands 2–9 · All Trusts</div>
+      </div>
+    </div>
+    <div class="price-card">
+      <div class="price-amount">£1.99</div>
+      <div class="price-period">per month · cancel anytime</div>
+      <div class="price-features">
+        <div>✅ Full pay calculations</div>
+        <div>✅ Unsocial hours breakdown</div>
+        <div>✅ Year-to-date tracker</div>
+        <div>✅ Monthly stats dashboard</div>
+        <div>✅ Export to CSV / Excel</div>
+        <div>✅ Backup & restore</div>
+      </div>
+    </div>
+    <button class="paywall-btn" id="paywallSubscribeBtn" disabled onclick="subscribe()">Select a service to continue</button>
+    <button class="paywall-back" onclick="showScreen('screenMain')">← Back to Lite</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SCREEN: MAIN APP
+════════════════════════════════════════ -->
+<div class="screen" id="screenMain">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-trust" id="mainTrustBar">SHIFT PAY CALCULATOR</div>
+    <div class="header-main">
+      <div class="logo-wrap">
+        <div class="logo-text">
+          <div class="logo-name">Kinetic<span class="ks-shift">Shift</span><span class="ks-lite" id="liteLabel"> Lite</span></div>
+          <div class="logo-sub" id="mainSubLabel">Shift Pay Calculator</div>
+        </div>
+      </div>
+      <div class="header-nav">
+        <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
+        <div class="month-label" id="monthLabel">May 2026</div>
+        <button class="nav-btn" onclick="changeMonth(1)">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: CALENDAR -->
+  <div id="pageCalendar">
+    <!-- LEGEND -->
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Days</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Nights</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Off</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Sick</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div>A/L</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--pink)"></div>OT Shift</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div><span style="color:var(--red);font-size:10px">● OT</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3B82F6"></div>Note</div>
+      <div style="margin-left:auto;font-size:10px;color:var(--sub)">Tap any day</div>
+    </div>
+
+    <!-- CALENDAR GRID -->
+    <div class="cal-grid" id="calGrid">
+      <div class="cal-hdr">MON</div><div class="cal-hdr">TUE</div><div class="cal-hdr">WED</div>
+      <div class="cal-hdr">THU</div><div class="cal-hdr">FRI</div><div class="cal-hdr">SAT</div><div class="cal-hdr">SUN</div>
+    </div>
+
+    <!-- DETAIL PANEL -->
+    <div class="detail-panel hidden" id="detailPanel">
+      <div class="detail-nav">
+        <button class="d-btn" onclick="navDay(-1)">‹</button>
+        <div class="detail-date" id="detailDate">Friday 15 May</div>
+        <div class="detail-actions">
+          <button class="d-btn" onclick="navDay(1)">›</button>
+          <button class="d-btn" onclick="closeDetail()">×</button>
+        </div>
+      </div>
+      <div class="tabs-bar">
+        <div class="tab-item active" onclick="switchTab('shift',this)">Shift</div>
+        <div class="tab-item" onclick="switchTab('sick',this)">Sick</div>
+        <div class="tab-item" onclick="switchTab('eos',this)">End of Shift</div>
+        <div class="tab-item" onclick="switchTab('overtime',this)">Overtime</div>
+        <div class="tab-item" onclick="switchTab('mileage',this)">Mileage</div>
+        <div class="tab-item" onclick="switchTab('notes',this)">Notes</div>
+      </div>
+
+      <!-- SHIFT TAB -->
+      <div class="tab-pane active" id="tab-shift">
+        <div class="type-grid">
+          <button class="type-btn days" data-type="days" onclick="pickType('days')">☀️ Days</button>
+          <button class="type-btn nights" data-type="nights" onclick="pickType('nights')">🌙 Nights</button>
+          <button class="type-btn off" data-type="off" onclick="pickType('off')">🟢 Off</button>
+          <button class="type-btn sick" data-type="sick" onclick="pickType('sick')">🤒 Sick</button>
+          <button class="type-btn al" data-type="al" onclick="pickType('al')">🏖️ A/L</button>
+          <button class="type-btn ot_shift" data-type="ot_shift" onclick="pickType('ot_shift')">⚡ OT Shift</button>
+        </div>
+        <div class="row">
+          <div class="fg"><label>Start Time</label><input type="time" id="startTime" value="06:30"/></div>
+          <div class="fg"><label>End Time</label><input type="time" id="endTime" value="18:30"/></div>
+        </div>
+        <div class="fg mt8" style="margin-bottom:10px"><label>Location / Station</label><input type="text" id="location" placeholder="e.g. Cole Avenue, Gloucester"/></div>
+        <div class="tog-row">
+          <div><div class="tog-label">Food Allowance</div><div class="tog-sub">12h+ shift — £5.00</div></div>
+          <label class="tog"><input type="checkbox" id="foodToggle"/><span class="tog-sl"></span></label>
+        </div>
+        <div class="tog-row">
+          <div><div class="tog-label">Overtime this shift</div><div class="tog-sub">Extra OT hours worked</div></div>
+          <label class="tog"><input type="checkbox" id="otToggle" onchange="toggleOtRow()"/><span class="tog-sl"></span></label>
+        </div>
+        <div class="fg hidden mt8" id="otInputRow"><label>OT Hours</label><input type="number" id="otHoursShift" placeholder="e.g. 1.5" step="0.25" min="0"/></div>
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn btn-primary" style="flex:1" onclick="saveShift()">💾 Save Shift</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteShift()">🗑️</button>
+        </div>
+      </div>
+
+      <!-- SICK TAB -->
+      <div class="tab-pane" id="tab-sick">
+        <div class="sick-info"><strong>NHS AfC Sick Pay</strong><br>Year 1: 1 month full + 2 months half<br>Year 2: 2 months full + 2 months half<br>Year 3: 4 months full + 4 months half<br>Year 4: 5 months full + 5 months half<br>Year 5+: 6 months full + 6 months half</div>
+        <div class="fg" style="margin-bottom:10px"><label>NHS Start Date</label><input type="date" id="nhsStart" onchange="calcSick()"/></div>
+        <div id="sickResult" style="background:#F5F7FA;border-radius:10px;padding:12px;font-size:13px;"></div>
+      </div>
+
+      <!-- END OF SHIFT TAB -->
+      <div class="tab-pane" id="tab-eos">
+        <div class="fg" style="margin-bottom:8px"><label>Actual Finish Time</label><input type="time" id="actualFinish" oninput="calcOverrun()"/></div>
+        <div class="overrun-info" id="overrunInfo"></div>
+        <div class="ot-rule mt12"><strong>SWASFT Policy:</strong> Overruns of 30+ minutes are recorded. Paid at basic rate unless triggering OT threshold.</div>
+        <button class="btn btn-primary btn-full mt12" onclick="saveEos()">Save EoS Time</button>
+      </div>
+
+      <!-- OVERTIME TAB -->
+      <div class="tab-pane" id="tab-overtime">
+        <div class="ot-rule"><strong>Overtime Rules:</strong><br>• Paid at <strong>×1.5</strong> basic rate<br>• Higher of OT or unsocial rate applies<br>• No double-dipping<br>• Paid following month</div>
+        <div class="row mt12">
+          <div class="fg"><label>OT Hours</label><input type="number" id="otHoursTab" placeholder="0" step="0.25" min="0" oninput="calcOt()"/></div>
+          <div class="fg"><label>Multiplier</label><input type="number" id="otMult" value="1.5" step="0.25" min="1" oninput="calcOt()"/></div>
+        </div>
+        <div class="ot-calc hidden" id="otCalcResult"></div>
+        <button class="btn btn-primary btn-full mt12" onclick="saveOt()">Save OT</button>
+      </div>
+
+      <!-- MILEAGE TAB -->
+      <div class="tab-pane" id="tab-mileage">
+        <div class="row">
+          <div class="fg"><label>Miles</label><input type="number" id="milesInput" placeholder="0" step="0.1" min="0" oninput="calcMileage()"/></div>
+          <div class="fg"><label>Rate (p/mile)</label><input type="number" id="milesRate" value="45" step="1" oninput="calcMileage()"/></div>
+        </div>
+        <div class="mileage-result hidden" id="mileageResult">
+          <div style="font-size:11px;color:var(--sub);margin-bottom:4px">Mileage Claim</div>
+          <div class="mileage-amt" id="mileageAmt">£0.00</div>
+        </div>
+        <button class="btn btn-primary btn-full mt12" onclick="saveMileage()">Save Mileage</button>
+      </div>
+
+      <!-- NOTES TAB -->
+      <div class="tab-pane" id="tab-notes">
+        <div class="fg"><label>Shift Notes</label><textarea id="notesInput" placeholder="Any notes for this shift..."></textarea></div>
+        <button class="btn btn-primary btn-full mt12" onclick="saveNotes()">Save Notes</button>
+      </div>
+    </div>
+
+    <!-- MONTHLY STATS -->
+    <div class="section" id="statsSection">
+      <div class="section-title">📊 <span id="statMonthLbl">May</span> Stats</div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-val blue" id="stDays">0</div><div class="stat-lbl">Day shifts</div></div>
+        <div class="stat-card"><div class="stat-val purple" id="stNights">0</div><div class="stat-lbl">Night shifts</div></div>
+        <div class="stat-card"><div class="stat-val red" id="stSick">0</div><div class="stat-lbl">Sick days</div></div>
+        <div class="stat-card"><div class="stat-val teal" id="stAL">0</div><div class="stat-lbl">Annual leave</div></div>
+        <div class="locked-wrap">
+          <div class="stats-grid" style="margin:0">
+            <div class="stat-card"><div class="stat-val blue" id="stSocial">0</div><div class="stat-lbl">Social hrs</div></div>
+            <div class="stat-card"><div class="stat-val purple" id="stUnsocial">0</div><div class="stat-lbl">Unsocial hrs</div></div>
+          </div>
+          <div class="locked-overlay" id="socialLock" onclick="goPaywall()">
+            <div class="locked-icon">🔒</div>
+            <div class="locked-text">Pro Feature</div>
+            <div class="locked-sub">Unlock pay calculations</div>
+            <button class="unlock-btn">£1.99/month</button>
+          </div>
+        </div>
+        <div class="stat-card"><div class="stat-val orange" id="stOverrun">0 min</div><div class="stat-lbl">Overrun</div></div>
+        <div class="locked-wrap" style="grid-column:span 1">
+          <div class="stat-card"><div class="stat-val green" id="stFood">£0</div><div class="stat-lbl">Food allowance</div></div>
+          <div class="locked-overlay" id="foodLock" onclick="goPaywall()">
+            <div class="locked-icon">🔒</div>
+            <div class="locked-text">Pro</div>
+            <button class="unlock-btn">Unlock</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAY CARD -->
+      <div class="locked-wrap">
+        <div class="pay-card">
+          <div class="pay-lbl">Estimated gross pay this month</div>
+          <div class="pay-total" id="payTotal">£0.00</div>
+          <div class="pay-breakdown" id="payBreakdown"></div>
+        </div>
+        <div class="locked-overlay" id="payLock" onclick="goPaywall()">
+          <div class="locked-icon">🔒</div>
+          <div class="locked-text">Unlock Pay Calculator</div>
+          <div class="locked-sub">See your estimated gross pay</div>
+          <button class="unlock-btn">Get Full Access — £1.99/month</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- YEAR TO DATE TRACKER -->
+    <div class="section" id="ytdSection">
+      <div class="section-title">📈 Year To Date — <span id="ytdYear">2026</span></div>
+      <div class="locked-wrap">
+        <!-- CONTRACT HOURS -->
+        <div class="ytd-card">
+          <div class="ytd-stream-title">
+            <span class="ytd-stream-icon">📋</span>
+            <span class="ytd-stream-name">Contract Hours</span>
+            <span class="ytd-total contract" id="ytdContractTotal">0h</span>
+          </div>
+          <div id="ytdContractBars"></div>
+        </div>
+        <!-- OVERRUN HOURS -->
+        <div class="ytd-card">
+          <div class="ytd-stream-title">
+            <span class="ytd-stream-icon">⏱️</span>
+            <span class="ytd-stream-name">Overrun Hours</span>
+            <span class="ytd-total overrun" id="ytdOverrunTotal">0h</span>
+          </div>
+          <div id="ytdOverrunBars"></div>
+        </div>
+        <!-- OVERTIME HOURS -->
+        <div class="ytd-card">
+          <div class="ytd-stream-title">
+            <span class="ytd-stream-icon">⚡</span>
+            <span class="ytd-stream-name">Overtime Hours</span>
+            <span class="ytd-total overtime" id="ytdOvertimeTotal">0h</span>
+          </div>
+          <div id="ytdOvertimeBars"></div>
+        </div>
+        <div class="locked-overlay" id="ytdLock" onclick="goPaywall()">
+          <div class="locked-icon">🔒</div>
+          <div class="locked-text">Pro Feature</div>
+          <div class="locked-sub">Year-to-date hour tracker</div>
+          <button class="unlock-btn">£1.99/month</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROLLING RELIEF (Ambulance only) -->
+    <div class="section hidden" id="reliefSection">
+      <div class="section-title">🔄 Rolling Relief Tracker</div>
+      <div class="locked-wrap">
+        <div class="relief-card">
+          <div class="relief-badge">
+            <div class="relief-badge-lbl">Current Balance</div>
+            <div class="badge ok" id="reliefBadge">✅ Within normal parameters</div>
+          </div>
+          <div class="row">
+            <div class="fg"><label>GRS Hours (This Month)</label><input type="number" id="reliefGRS" placeholder="0" step="0.5" oninput="updateRelief()"/></div>
+            <div class="fg"><label>Actual Hours Worked</label><input type="number" id="reliefActual" placeholder="0" step="0.5" oninput="updateRelief()"/></div>
+          </div>
+          <div id="reliefMonths"></div>
+        </div>
+        <div class="locked-overlay" id="reliefLock" onclick="goPaywall()">
+          <div class="locked-icon">🔒</div>
+          <div class="locked-text">Pro Feature</div>
+          <div class="locked-sub">Rolling Relief / GRS Tracker</div>
+          <button class="unlock-btn">£1.99/month</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pageCalendar -->
+
+  <!-- PAGE: STATS -->
+  <div id="pageStats" class="hidden" style="padding:12px">
+    <div class="section-title" style="padding:4px 0">📊 Year Overview — <span id="yearOverviewLbl">2026</span></div>
+    <div id="yearOverview" style="background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)">
+      <p style="color:var(--sub);font-size:13px">Add shifts to see your year overview here.</p>
+    </div>
+  </div>
+
+  <!-- PAGE: SETTINGS -->
+  <div id="pageSettings" class="hidden">
+    <div style="padding:12px">
+      <div class="settings-card">
+        <div class="settings-card-title">Service</div>
+        <div class="service-badge" id="serviceBadgeDisplay">🚑 Lite Mode</div>
+        <button class="btn btn-orange btn-full btn-sm" onclick="goPaywall()">Upgrade to Full Access — £1.99/month</button>
+      </div>
+      <div class="settings-card">
+        <div class="settings-card-title">Pay Settings</div>
+        <div class="fg" style="margin-bottom:10px"><label>Annual Salary (£)</label><input type="number" id="setSalary" value="31157" oninput="saveSettings()"/></div>
+        <div class="fg" style="margin-bottom:10px"><label>Hours Per Week</label><input type="number" id="setHours" value="37.5" step="0.5" oninput="saveSettings()"/></div>
+        <div class="fg" style="margin-bottom:10px"><label>AfC Band / Grade</label>
+          <select id="setBand" onchange="saveSettings()">
+            <option value="2">Band 2 — £23,615</option>
+            <option value="3">Band 3 — £24,625</option>
+            <option value="4" selected>Band 4 — £26,530</option>
+            <option value="5">Band 5 — £29,970</option>
+            <option value="6">Band 6 — £37,338</option>
+            <option value="7">Band 7 — £46,148</option>
+            <option value="8a">Band 8a — £53,755</option>
+            <option value="8b">Band 8b — £62,215</option>
+            <option value="custom">Custom salary ↑</option>
+          </select>
+        </div>
+        <div style="background:#F5F7FA;border-radius:10px;padding:10px;font-size:13px">
+          <strong>Hourly Rate: </strong><span id="rateDisplay">£15.93</span>
+        </div>
+      </div>
+      <div class="settings-card">
+        <div class="settings-card-title">Profile</div>
+        <div class="fg" style="margin-bottom:10px"><label>Your Name</label><input type="text" id="setName" placeholder="Your name" oninput="saveSettings()"/></div>
+        <div class="fg"><label>Station / Trust / Force</label><input type="text" id="setStation" placeholder="e.g. Cole Avenue, SWAST Glos" oninput="saveSettings()"/></div>
+      </div>
+      <div class="settings-card">
+        <div class="settings-card-title">Data</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn btn-secondary btn-full" onclick="exportJSON()">📤 Export Backup (JSON)</button>
+          <button class="btn btn-secondary btn-full" onclick="exportCSV()">📊 Export to CSV / Excel</button>
+          <label class="btn btn-secondary btn-full" style="cursor:pointer">📥 Restore Backup<input type="file" accept=".json" style="display:none" onchange="importJSON(event)"/></label>
+          <button class="btn btn-danger btn-full" onclick="clearAll()">🗑️ Clear All Data</button>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:11px;color:var(--sub);padding:10px">KineticShift v2.0 — Shift Pay Calculator</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <div class="bn-item active" onclick="showPage('calendar',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Calendar
+    </div>
+    <div class="bn-item" onclick="showPage('stats',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Stats
+    </div>
+    <div class="bn-item" onclick="showPage('settings',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </div>
+  </nav>
+
+</div><!-- /screenMain -->
+
+<script>
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const SHORT  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const BAND_SALARIES = {2:23615,3:24625,4:26530,5:29970,6:37338,7:46148,'8a':53755,'8b':62215};
+
+let state = {
+  currentYear: new Date().getFullYear(),
+  currentMonth: new Date().getMonth(),
+  selectedDate: null,
+  selectedType: 'days',
+  service: null,        // null = lite, 'ambulance','police','fire','nhs'
+  isPro: false,
+  shifts: {},
+  settings: { salary:31157, hours:37.5, band:'4', name:'', station:'' },
+  relief: {}
+};
+
+const SERVICE_META = {
+  ambulance: { icon:'🚑', label:'Ambulance', desc:'NHS AfC Pay Rules', color:'#005EB8', hasRelief:true },
+  police:    { icon:'🚓', label:'Police',    desc:'Police Regulations', color:'#1C2B4A', hasRelief:false },
+  fire:      { icon:'🔥', label:'Fire',      desc:'NJC Grey Book',      color:'#CC0000', hasRelief:false },
+  nhs:       { icon:'🏥', label:'NHS',       desc:'AfC Bands 2–9',      color:'#009639', hasRelief:false }
+};
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+function init(){
+  loadData();
+  // Skip onboarding if returning user
+  if(state.shifts && Object.keys(state.shifts).length > 0){
+    showScreen('screenMain');
+  }
+  renderCalendar();
+  updateStats();
+  updateYTD();
+  applyProState();
+  loadSettingsUI();
+  setupPWA();
+  document.getElementById('otToggle').addEventListener('change', toggleOtRow);
+}
+
+// ══════════════════════════════════════════════
+// SCREENS
+// ══════════════════════════════════════════════
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+let selectedServiceCard = null;
+function selectService(svc, el){
+  if(selectedServiceCard) selectedServiceCard.classList.remove('selected');
+  el.classList.add('selected');
+  selectedServiceCard = el;
+  const btn = document.getElementById('paywallSubscribeBtn');
+  btn.disabled = false;
+  btn.textContent = `Subscribe — ${SERVICE_META[svc].icon} ${SERVICE_META[svc].label} — £1.99/month`;
+  state._pendingService = svc;
+}
+
+function subscribe(){
+  // In production this opens Stripe. For now, activate directly.
+  if(!state._pendingService) return;
+  state.service = state._pendingService;
+  state.isPro = true;
+  saveData();
+  applyProState();
+  showScreen('screenMain');
+  showToast(`${SERVICE_META[state.service].icon} ${SERVICE_META[state.service].label} unlocked! Welcome to Pro 🎉`);
+}
+
+function goPaywall(){
+  showScreen('screenPaywall');
+}
+
+// ══════════════════════════════════════════════
+// PRO STATE
+// ══════════════════════════════════════════════
+function applyProState(){
+  const pro = state.isPro;
+  const svc = state.service;
+  const meta = svc ? SERVICE_META[svc] : null;
+
+  // Header
+  document.getElementById('liteLabel').textContent = pro ? '' : ' Lite';
+  document.getElementById('mainSubLabel').textContent = meta ? meta.desc : 'Shift Pay Calculator';
+  document.getElementById('mainTrustBar').textContent = state.settings.station || (meta ? `${meta.icon} ${meta.label} — Shift Pay Calculator` : 'SHIFT PAY CALCULATOR');
+
+  // Lock overlays
+  ['socialLock','foodLock','payLock','ytdLock','reliefLock'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.classList.toggle('hidden', pro);
+  });
+
+  // Relief section — ambulance only
+  const reliefSec = document.getElementById('reliefSection');
+  if(reliefSec) reliefSec.classList.toggle('hidden', !(pro && svc === 'ambulance'));
+
+  // Settings service badge
+  const badge = document.getElementById('serviceBadgeDisplay');
+  if(badge) badge.textContent = meta ? `${meta.icon} ${meta.label}` : '🔒 Lite Mode';
+
+  updateStats();
+  updateYTD();
+}
+
+// ══════════════════════════════════════════════
+// PAGES
+// ══════════════════════════════════════════════
+function showPage(name, el){
+  document.querySelectorAll('.bn-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('pageCalendar').classList.toggle('hidden', name !== 'calendar');
+  document.getElementById('pageStats').classList.toggle('hidden', name !== 'stats');
+  document.getElementById('pageSettings').classList.toggle('hidden', name !== 'settings');
+  if(name === 'stats') renderYearOverview();
+}
+
+// ══════════════════════════════════════════════
+// CALENDAR
+// ══════════════════════════════════════════════
+function changeMonth(dir){
+  state.currentMonth += dir;
+  if(state.currentMonth > 11){ state.currentMonth = 0; state.currentYear++; }
+  if(state.currentMonth < 0){ state.currentMonth = 11; state.currentYear--; }
+  state.selectedDate = null;
+  document.getElementById('detailPanel').classList.add('hidden');
+  renderCalendar();
+  updateStats();
+  updateYTD();
+}
+
+function renderCalendar(){
+  const { currentYear: y, currentMonth: m } = state;
+  document.getElementById('monthLabel').textContent = `${MONTHS[m]} ${y}`;
+  document.getElementById('statMonthLbl').textContent = MONTHS[m];
+  document.getElementById('ytdYear').textContent = y;
+  document.getElementById('yearOverviewLbl').textContent = y;
+
+  const grid = document.getElementById('calGrid');
+  while(grid.children.length > 7) grid.removeChild(grid.lastChild);
+
+  const firstDay = new Date(y, m, 1).getDay();
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+  const offset = firstDay === 0 ? 6 : firstDay - 1;
+  const today = new Date();
+
+  for(let i=0; i<offset; i++){
+    const e = document.createElement('div');
+    e.style.minHeight = '70px';
+    grid.appendChild(e);
+  }
+
+  for(let d=1; d<=daysInMonth; d++){
+    const ds = dateStr(y, m+1, d);
+    const sh = state.shifts[ds];
+    const isToday = today.getFullYear()===y && today.getMonth()===m && today.getDate()===d;
+    const isSel = state.selectedDate === ds;
+    const type = sh ? sh.type : 'off';
+
+    const cell = document.createElement('div');
+    cell.className = `cal-cell type-${type} ${isToday?'today':''} ${isSel?'selected':''}`;
+    cell.onclick = () => openDetail(ds);
+
+    const typeLabels = {days:'DAYS',nights:'NIGHTS',off:'OFF',sick:'SICK',al:'A/L',ot_shift:'OT SHIFT'};
+    let html = `<div class="cell-date">${d}</div>`;
+    html += `<div class="cell-type ${type}">${typeLabels[type]||type.toUpperCase()}</div>`;
+    if(sh && sh.start && sh.end && type !== 'off') html += `<div class="cell-time">${sh.start}–${sh.end}</div>`;
+    if(sh && sh.location) html += `<div class="cell-loc">${sh.location.substring(0,10)}</div>`;
+
+    let dots = '';
+    if(sh && sh.otHours > 0) dots += `<div class="cell-dot" style="background:var(--red)"></div>`;
+    if(sh && sh.notes) dots += `<div class="cell-dot" style="background:#3B82F6"></div>`;
+    if(dots) html += `<div class="cell-dots">${dots}</div>`;
+
+    cell.innerHTML = html;
+    grid.appendChild(cell);
+  }
+}
+
+// ══════════════════════════════════════════════
+// DETAIL
+// ══════════════════════════════════════════════
+function openDetail(ds){
+  state.selectedDate = ds;
+  const [y,m,d] = ds.split('-').map(Number);
+  document.getElementById('detailDate').textContent = `${DAYS[new Date(y,m-1,d).getDay()]} ${d} ${SHORT[m-1]}`;
+  document.getElementById('detailPanel').classList.remove('hidden');
+
+  const sh = state.shifts[ds] || {};
+  state.selectedType = sh.type || 'days';
+  document.querySelectorAll('.type-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.type === state.selectedType);
+  });
+  setShiftDefaults(state.selectedType, sh);
+
+  document.getElementById('startTime').value = sh.start || '06:30';
+  document.getElementById('endTime').value = sh.end || '18:30';
+  document.getElementById('location').value = sh.location || '';
+  document.getElementById('foodToggle').checked = !!sh.food;
+  document.getElementById('otToggle').checked = !!sh.ot;
+  document.getElementById('otInputRow').classList.toggle('hidden', !sh.ot);
+  document.getElementById('otHoursShift').value = sh.otHours || '';
+  document.getElementById('notesInput').value = sh.notes || '';
+  document.getElementById('milesInput').value = sh.mileage || '';
+  document.getElementById('actualFinish').value = sh.actualFinish || '';
+  document.getElementById('otHoursTab').value = sh.otHours || '';
+  document.getElementById('nhsStart').value = state.settings.nhsStart || '';
+
+  switchTab('shift', document.querySelector('.tab-item'));
+  calcOverrun(); calcOt(); calcMileage(); calcSick();
+  renderCalendar();
+  document.getElementById('detailPanel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closeDetail(){
+  state.selectedDate = null;
+  document.getElementById('detailPanel').classList.add('hidden');
+  renderCalendar();
+}
+
+function navDay(dir){
+  if(!state.selectedDate) return;
+  const [y,m,d] = state.selectedDate.split('-').map(Number);
+  const next = new Date(y,m-1,d+dir);
+  state.currentMonth = next.getMonth();
+  state.currentYear = next.getFullYear();
+  openDetail(dateStr(next.getFullYear(), next.getMonth()+1, next.getDate()));
+}
+
+// ══════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════
+function switchTab(name, _el){
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  const map = {shift:0,sick:1,eos:2,overtime:3,mileage:4,notes:5};
+  const items = document.querySelectorAll('.tab-item');
+  if(items[map[name]]) items[map[name]].classList.add('active');
+}
+
+// ══════════════════════════════════════════════
+// SHIFT ACTIONS
+// ══════════════════════════════════════════════
+const SHIFT_DEFAULTS = {
+  days:     {start:'06:30',end:'18:30'},
+  nights:   {start:'18:30',end:'06:30'},
+  off:      {start:'',end:''},
+  sick:     {start:'06:30',end:'18:30'},
+  al:       {start:'06:30',end:'18:30'},
+  ot_shift: {start:'06:30',end:'18:30'}
+};
+
+function pickType(type){
+  state.selectedType = type;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+  const def = SHIFT_DEFAULTS[type];
+  if(def.start !== undefined) document.getElementById('startTime').value = def.start;
+  if(def.end !== undefined) document.getElementById('endTime').value = def.end;
+}
+
+function setShiftDefaults(type, sh){
+  // Only apply defaults if no existing data
+  if(!sh.start){ const d = SHIFT_DEFAULTS[type]; if(d){ document.getElementById('startTime').value=d.start; document.getElementById('endTime').value=d.end; }}
+}
+
+function toggleOtRow(){
+  document.getElementById('otInputRow').classList.toggle('hidden', !document.getElementById('otToggle').checked);
+}
+
+function saveShift(){
+  if(!state.selectedDate) return;
+  const ex = state.shifts[state.selectedDate] || {};
+  state.shifts[state.selectedDate] = {
+    ...ex,
+    type: state.selectedType,
+    start: document.getElementById('startTime').value,
+    end: document.getElementById('endTime').value,
+    location: document.getElementById('location').value,
+    food: document.getElementById('foodToggle').checked,
+    ot: document.getElementById('otToggle').checked,
+    otHours: parseFloat(document.getElementById('otHoursShift').value)||0,
+    notes: document.getElementById('notesInput').value,
+    mileage: parseFloat(document.getElementById('milesInput').value)||0,
+    actualFinish: document.getElementById('actualFinish').value
+  };
+  saveData(); renderCalendar(); updateStats(); updateYTD(); showToast('Shift saved ✅');
+}
+
+function deleteShift(){
+  if(!state.selectedDate || !confirm('Delete this shift?')) return;
+  delete state.shifts[state.selectedDate];
+  saveData(); renderCalendar(); updateStats(); updateYTD(); closeDetail(); showToast('Shift deleted 🗑️');
+}
+
+function saveNotes(){ if(!state.selectedDate) return; ensureShift(); state.shifts[state.selectedDate].notes = document.getElementById('notesInput').value; saveData(); renderCalendar(); showToast('Notes saved ✅'); }
+function saveMileage(){ if(!state.selectedDate) return; ensureShift(); state.shifts[state.selectedDate].mileage = parseFloat(document.getElementById('milesInput').value)||0; saveData(); showToast('Mileage saved ✅'); }
+function saveEos(){ if(!state.selectedDate) return; ensureShift(); state.shifts[state.selectedDate].actualFinish = document.getElementById('actualFinish').value; saveData(); showToast('EoS saved ✅'); }
+function saveOt(){ if(!state.selectedDate) return; ensureShift(); state.shifts[state.selectedDate].otHours = parseFloat(document.getElementById('otHoursTab').value)||0; state.shifts[state.selectedDate].ot = state.shifts[state.selectedDate].otHours > 0; saveData(); renderCalendar(); updateStats(); updateYTD(); showToast('OT saved ✅'); }
+function ensureShift(){ if(!state.shifts[state.selectedDate]) state.shifts[state.selectedDate] = {type:'off'}; }
+
+// ══════════════════════════════════════════════
+// CALCULATIONS
+// ══════════════════════════════════════════════
+function getRate(){
+  const sal = parseFloat(document.getElementById('setSalary')?.value) || state.settings.salary;
+  const hrs = parseFloat(document.getElementById('setHours')?.value) || state.settings.hours;
+  return sal / 52 / hrs;
+}
+
+function toMins(t){ if(!t) return null; const [h,m]=t.split(':').map(Number); return h*60+m; }
+
+function shiftHours(start,end){ if(!start||!end) return 0; let s=toMins(start),e=toMins(end); if(e<=s) e+=1440; return (e-s)/60; }
+
+function calcUnsocial(ds, start, end){
+  if(!start||!end) return {social:0,unsocial:0,sunday:0};
+  const [y,m,d] = ds.split('-').map(Number);
+  let s=toMins(start), e=toMins(end);
+  if(e<=s) e+=1440;
+  let social=0,unsocial=0,sunday=0;
+  for(let t=s;t<e;t++){
+    const dayOfWeek = new Date(y,m-1,d+Math.floor(t/1440)).getDay();
+    const tMod = t%1440;
+    if(dayOfWeek===0){ sunday+=1/60; }
+    else if(dayOfWeek===6){ unsocial+=1/60; }
+    else { (tMod>=360&&tMod<1200) ? social+=1/60 : unsocial+=1/60; }
+  }
+  return {social:Math.round(social*10)/10, unsocial:Math.round(unsocial*10)/10, sunday:Math.round(sunday*10)/10};
+}
+
+function calcOverrun(){
+  const end = document.getElementById('endTime').value;
+  const actual = document.getElementById('actualFinish').value;
+  const el = document.getElementById('overrunInfo');
+  if(!end||!actual){el.textContent='';return;}
+  let diff = toMins(actual)-toMins(end);
+  if(diff<-120) diff+=1440;
+  el.textContent = diff>0 ? `⚠️ Overrun: ${diff} minutes` : '✅ On time';
+}
+
+function calcOt(){
+  const hrs = parseFloat(document.getElementById('otHoursTab').value)||0;
+  const mult = parseFloat(document.getElementById('otMult').value)||1.5;
+  const rate = getRate();
+  const el = document.getElementById('otCalcResult');
+  if(hrs>0){
+    el.classList.remove('hidden');
+    el.innerHTML = `<strong>OT Pay:</strong> ${hrs}h × £${rate.toFixed(4)} × ${mult} = <strong>£${(hrs*rate*mult).toFixed(2)}</strong>`;
+  } else { el.classList.add('hidden'); }
+}
+
+function calcMileage(){
+  const miles = parseFloat(document.getElementById('milesInput').value)||0;
+  const rate = parseFloat(document.getElementById('milesRate').value)||45;
+  const res = document.getElementById('mileageResult');
+  document.getElementById('mileageAmt').textContent = `£${(miles*rate/100).toFixed(2)}`;
+  res.classList.toggle('hidden', miles<=0);
+}
+
+function calcSick(){
+  const start = document.getElementById('nhsStart').value;
+  const el = document.getElementById('sickResult');
+  if(!start){el.innerHTML='';return;}
+  const yrs = (new Date()-new Date(start))/(1000*60*60*24*365.25);
+  const rules = yrs<1?'1 month full, 2 months half':yrs<2?'2 months full, 2 months half':yrs<3?'4 months full, 4 months half':yrs<4?'5 months full, 5 months half':'6 months full, 6 months half (maximum)';
+  el.innerHTML = `<strong>Entitlement:</strong> ${rules}<br><small style="color:var(--sub)">${Math.floor(yrs)} years NHS service</small>`;
+  state.settings.nhsStart = start; saveData();
+}
+
+// ══════════════════════════════════════════════
+// STATS
+// ══════════════════════════════════════════════
+function updateStats(){
+  const {currentYear:y,currentMonth:m} = state;
+  const daysInMonth = new Date(y,m+1,0).getDate();
+  let days=0,nights=0,sick=0,al=0,social=0,unsocial=0,overrunMins=0,food=0,basic=0,nightSat=0,sunday=0,ot=0;
+  const rate = getRate();
+
+  for(let d=1;d<=daysInMonth;d++){
+    const ds = dateStr(y,m+1,d);
+    const sh = state.shifts[ds];
+    if(!sh) continue;
+    if(sh.type==='days') days++;
+    if(sh.type==='nights') nights++;
+    if(sh.type==='sick') sick++;
+    if(sh.type==='al') al++;
+    if(sh.food) food+=5;
+    if(sh.actualFinish && sh.end){ let diff=toMins(sh.actualFinish)-toMins(sh.end); if(diff<-120)diff+=1440; if(diff>0)overrunMins+=diff; }
+    if(['days','nights','ot_shift'].includes(sh.type) && sh.start && sh.end){
+      const h = calcUnsocial(ds,sh.start,sh.end);
+      social+=h.social; unsocial+=h.unsocial;
+      const tot=h.social+h.unsocial+h.sunday;
+      basic+=tot*rate; nightSat+=h.unsocial*rate*0.3; sunday+=h.sunday*rate*0.6;
+    }
+    if(sh.otHours){ ot+=sh.otHours*rate*1.5; }
+  }
+
+  document.getElementById('stDays').textContent = days;
+  document.getElementById('stNights').textContent = nights;
+  document.getElementById('stSick').textContent = sick;
+  document.getElementById('stAL').textContent = al;
+  document.getElementById('stSocial').textContent = social.toFixed(1);
+  document.getElementById('stUnsocial').textContent = unsocial.toFixed(1);
+  document.getElementById('stOverrun').textContent = overrunMins+' min';
+  document.getElementById('stFood').textContent = state.isPro ? `£${food.toFixed(2)}` : '£--';
+  const gross = basic+nightSat+sunday+ot;
+  document.getElementById('payTotal').textContent = `£${gross.toFixed(2)}`;
+  document.getElementById('payBreakdown').textContent = `£${basic.toFixed(2)} basic · £${nightSat.toFixed(2)} night/sat · £${sunday.toFixed(2)} sunday · £${ot.toFixed(2)} OT`;
+}
+
+// ══════════════════════════════════════════════
+// YEAR TO DATE
+// ══════════════════════════════════════════════
+function updateYTD(){
+  const y = state.currentYear;
+  const monthlyContract = Array(12).fill(0);
+  const monthlyOverrun = Array(12).fill(0);
+  const monthlyOvertime = Array(12).fill(0);
+
+  Object.keys(state.shifts).forEach(ds => {
+    const [sy,sm] = ds.split('-').map(Number);
+    if(sy !== y) return;
+    const mi = sm-1;
+    const sh = state.shifts[ds];
+    if(['days','nights','ot_shift'].includes(sh.type) && sh.start && sh.end){
+      monthlyContract[mi] += shiftHours(sh.start, sh.end);
+    }
+    if(sh.actualFinish && sh.end){
+      let diff = toMins(sh.actualFinish)-toMins(sh.end);
+      if(diff<-120) diff+=1440;
+      if(diff>0) monthlyOverrun[mi] += diff/60;
+    }
+    if(sh.otHours) monthlyOvertime[mi] += sh.otHours;
+  });
+
+  const maxC = Math.max(...monthlyContract,1);
+  const maxO = Math.max(...monthlyOverrun,0.1);
+  const maxT = Math.max(...monthlyOvertime,0.1);
+
+  renderYTDBars('ytdContractBars', monthlyContract, maxC, 'contract', y);
+  renderYTDBars('ytdOverrunBars', monthlyOverrun, maxO, 'overrun', y);
+  renderYTDBars('ytdOvertimeBars', monthlyOvertime, maxT, 'overtime', y);
+
+  const totalC = monthlyContract.reduce((a,b)=>a+b,0);
+  const totalO = monthlyOverrun.reduce((a,b)=>a+b,0);
+  const totalT = monthlyOvertime.reduce((a,b)=>a+b,0);
+
+  document.getElementById('ytdContractTotal').textContent = totalC.toFixed(1)+'h';
+  document.getElementById('ytdOverrunTotal').textContent = totalO.toFixed(1)+'h';
+  document.getElementById('ytdOvertimeTotal').textContent = totalT.toFixed(1)+'h';
+}
+
+function renderYTDBars(containerId, data, max, type, year){
+  const today = new Date();
+  const container = document.getElementById(containerId);
+  let html = '';
+  data.forEach((val, mi) => {
+    // Only show months that have data OR are in the past/current
+    if(year < today.getFullYear() || mi <= today.getMonth()){
+      const pct = max>0 ? Math.min((val/max)*100,100) : 0;
+      const isCurrent = year===today.getFullYear() && mi===today.getMonth();
+      html += `<div class="ytd-row">
+        <div class="ytd-month">${SHORT[mi]}</div>
+        <div class="ytd-bar-wrap">
+          <div class="ytd-bar ${type}" style="width:${pct}%;${isCurrent?'opacity:0.6':''}"></div>
+        </div>
+        <div class="ytd-hrs" style="color:var(--${type==='contract'?'navy':type==='overrun'?'orange':'green'})">${val>0?val.toFixed(1)+'h':''}</div>
+      </div>`;
+    }
+  });
+  container.innerHTML = html || '<div style="font-size:12px;color:var(--sub);padding:8px 0">No data logged yet for this year</div>';
+}
+
+// ══════════════════════════════════════════════
+// ROLLING RELIEF
+// ══════════════════════════════════════════════
+function updateRelief(){
+  const mk = `${state.currentYear}-${String(state.currentMonth+1).padStart(2,'0')}`;
+  state.relief[mk] = {
+    grs: parseFloat(document.getElementById('reliefGRS').value)||0,
+    actual: parseFloat(document.getElementById('reliefActual').value)||0
+  };
+  saveData(); renderRelief();
+}
+
+function renderRelief(){
+  const mk = `${state.currentYear}-${String(state.currentMonth+1).padStart(2,'0')}`;
+  const r = state.relief[mk]||{};
+  if(r.grs!==undefined) document.getElementById('reliefGRS').value=r.grs;
+  if(r.actual!==undefined) document.getElementById('reliefActual').value=r.actual;
+
+  const keys = Object.keys(state.relief).sort().slice(-12);
+  let totalGRS=0,totalActual=0,html='';
+  keys.forEach(k=>{
+    const [y,m]=k.split('-').map(Number);
+    const g=state.relief[k].grs||0, a=state.relief[k].actual||0;
+    totalGRS+=g; totalActual+=a;
+    const diff=a-g;
+    html+=`<div class="relief-month-row"><span>${SHORT[m-1]} ${y}</span><span>${a}h <span style="font-size:10px;color:${diff>0?'var(--red)':'var(--green)'}">${diff>0?'+':''}${diff.toFixed(1)}</span></span></div>`;
+  });
+  document.getElementById('reliefMonths').innerHTML = html;
+  const rollDiff = totalActual-totalGRS;
+  const badge = document.getElementById('reliefBadge');
+  if(Math.abs(rollDiff)<10){badge.className='badge ok';badge.textContent='✅ Within normal parameters';}
+  else if(rollDiff>10){badge.className='badge high';badge.textContent=`⚠️ +${rollDiff.toFixed(1)}h over GRS`;}
+  else{badge.className='badge low';badge.textContent=`📉 ${Math.abs(rollDiff).toFixed(1)}h under GRS`;}
+}
+
+// ══════════════════════════════════════════════
+// YEAR OVERVIEW
+// ══════════════════════════════════════════════
+function renderYearOverview(){
+  const y = state.currentYear;
+  const rate = getRate();
+  let html='', totalGross=0;
+  for(let m=0;m<12;m++){
+    const daysInMonth = new Date(y,m+1,0).getDate();
+    let has=false, basic=0, ns=0, sun=0;
+    for(let d=1;d<=daysInMonth;d++){
+      const ds=dateStr(y,m+1,d);
+      const sh=state.shifts[ds];
+      if(sh&&['days','nights','ot_shift'].includes(sh.type)&&sh.start&&sh.end){
+        has=true;
+        const h=calcUnsocial(ds,sh.start,sh.end);
+        basic+=(h.social+h.unsocial+h.sunday)*rate;
+        ns+=h.unsocial*rate*0.3; sun+=h.sunday*rate*0.6;
+      }
+    }
+    if(has){
+      const gross=basic+ns+sun; totalGross+=gross;
+      html+=`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px"><div style="font-weight:700">${MONTHS[m]}</div><div style="color:var(--green);font-weight:800">£${gross.toFixed(2)}</div></div>`;
+    }
+  }
+  if(!html) html='<p style="color:var(--sub);font-size:13px">No shifts logged for this year yet.</p>';
+  else html+=`<div style="display:flex;justify-content:space-between;padding:10px 0;font-size:15px;font-weight:900"><div>Total ${y}</div><div style="color:var(--green)">£${totalGross.toFixed(2)}</div></div>`;
+  document.getElementById('yearOverview').innerHTML = html;
+}
+
+// ══════════════════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════════════════
+function saveSettings(){
+  state.settings.salary = parseFloat(document.getElementById('setSalary')?.value)||31157;
+  state.settings.hours = parseFloat(document.getElementById('setHours')?.value)||37.5;
+  state.settings.band = document.getElementById('setBand')?.value||'4';
+  state.settings.name = document.getElementById('setName')?.value||'';
+  state.settings.station = document.getElementById('setStation')?.value||'';
+  document.getElementById('rateDisplay').textContent = `£${getRate().toFixed(4)}`;
+  document.getElementById('mainTrustBar').textContent = state.settings.station || (state.service ? `${SERVICE_META[state.service].icon} ${SERVICE_META[state.service].label}` : 'SHIFT PAY CALCULATOR');
+  saveData(); updateStats();
+}
+
+function loadSettingsUI(){
+  document.getElementById('setSalary').value = state.settings.salary;
+  document.getElementById('setHours').value = state.settings.hours;
+  document.getElementById('setBand').value = state.settings.band||'4';
+  document.getElementById('setName').value = state.settings.name||'';
+  document.getElementById('setStation').value = state.settings.station||'';
+  document.getElementById('rateDisplay').textContent = `£${getRate().toFixed(4)}`;
+}
+
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
+function saveData(){
+  try {
+    localStorage.setItem('ks_v2', JSON.stringify({
+      shifts: state.shifts, settings: state.settings,
+      relief: state.relief, service: state.service, isPro: state.isPro
+    }));
+  } catch(e){}
+}
+
+function loadData(){
+  try {
+    const raw = localStorage.getItem('ks_v2');
+    if(raw){
+      const d = JSON.parse(raw);
+      if(d.shifts) state.shifts = d.shifts;
+      if(d.settings) state.settings = {...state.settings,...d.settings};
+      if(d.relief) state.relief = d.relief;
+      if(d.service) state.service = d.service;
+      if(d.isPro) state.isPro = d.isPro;
+    }
+  } catch(e){}
+}
+
+function exportJSON(){
+  const blob = new Blob([JSON.stringify({shifts:state.shifts,settings:state.settings,relief:state.relief,exported:new Date().toISOString()},null,2)],{type:'application/json'});
+  dl(blob,`kineticshift-backup-${new Date().toISOString().split('T')[0]}.json`);
+}
+
+function importJSON(e){
+  const file = e.target.files[0]; if(!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      if(d.shifts) state.shifts=d.shifts;
+      if(d.settings) state.settings={...state.settings,...d.settings};
+      if(d.relief) state.relief=d.relief;
+      saveData(); loadSettingsUI(); renderCalendar(); updateStats(); updateYTD();
+      showToast('Backup restored ✅');
+    } catch{ alert('Invalid backup file'); }
+  };
+  r.readAsText(file);
+}
+
+function exportCSV(){
+  const rows=[['Date','Day','Type','Start','End','Location','Total Hours','Social Hrs','Unsocial Hrs','Food','OT Hours','Mileage','Overrun Mins','Notes']];
+  Object.keys(state.shifts).sort().forEach(ds=>{
+    const sh=state.shifts[ds];
+    const [y,m,d]=ds.split('-').map(Number);
+    const day=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(y,m-1,d).getDay()];
+    const tot=shiftHours(sh.start,sh.end);
+    const h=calcUnsocial(ds,sh.start,sh.end);
+    let overrun=0;
+    if(sh.actualFinish&&sh.end){let diff=toMins(sh.actualFinish)-toMins(sh.end);if(diff<-120)diff+=1440;if(diff>0)overrun=diff;}
+    rows.push([ds,day,sh.type,sh.start||'',sh.end||'',sh.location||'',tot.toFixed(2),h.social.toFixed(2),(h.unsocial+h.sunday).toFixed(2),sh.food?'Yes':'No',sh.otHours||0,sh.mileage||0,overrun,(sh.notes||'').replace(/,/g,' ')]);
+  });
+  dl(new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'}),`kineticshift-export-${new Date().toISOString().split('T')[0]}.csv`);
+}
+
+function clearAll(){
+  if(confirm('⚠️ Delete ALL shift data?')){
+    state.shifts={}; state.relief={};
+    saveData(); renderCalendar(); updateStats(); updateYTD(); showToast('All data cleared');
+  }
+}
+
+function dl(blob, name){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); }
+
+// ══════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════
+function dateStr(y,m,d){ return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+
+function showToast(msg){
+  const t=document.createElement('div');
+  t.textContent=msg;
+  Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'#1A2B3C',color:'#fff',padding:'10px 20px',borderRadius:'20px',fontSize:'13px',fontWeight:'700',zIndex:'999',pointerEvents:'none',boxShadow:'0 4px 20px rgba(0,0,0,0.2)',whiteSpace:'nowrap'});
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2200);
+}
+
+let deferredPrompt=null;
+function setupPWA(){
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  window.addEventListener('beforeinstallprompt',e=>{
+    e.preventDefault(); deferredPrompt=e;
+    document.getElementById('installBanner').classList.remove('hidden');
+  });
+  document.getElementById('installBtn').addEventListener('click',async()=>{
+    if(deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; document.getElementById('installBanner').classList.add('hidden'); }
+  });
+}
+
+// ══════════════════════════════════════════════
+// START
+// ══════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>
